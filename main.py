@@ -16,7 +16,7 @@ pygame.display.set_caption("Screri Tetris")
 clock = pygame.time.Clock()
 
 grid = Grid(grid_width, grid_height, block_size)
-block = Block(random.choice(list(Block.SHAPES.keys())), 3, 0, block_size)
+block = Block(random.choice(list(Block.SHAPES.keys())), 4, 0, block_size)
 score = 0
 
 fall_time = 500
@@ -95,13 +95,13 @@ while main_menu:
 
     clock.tick(60)
 
-game_over_text = medium_font.render("Game Over!", True, (255, 0, 0))
+game_over_text = big_font.render("Game Over!", True, (255, 0, 0))
 score_text = medium_font.render(f"Score: {score}", True, (255, 255, 255))
-instruction_text = small_font.render(f"Press ESC to close", True, (100, 100, 100))
+instruction_text = medium_font.render(f"Press ESC to close...", True, (255, 255, 255))
 
-text_rect = game_over_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 3))
-score_rect = score_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 2))
-instruction_rect = instruction_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 1.5))
+text_rect = game_over_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 4))
+score_rect = score_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 3))
+instruction_rect = instruction_text.get_rect(center=(grid_width * block_size // 2, grid_height * block_size // 2))
 
 sound_player = None
 
@@ -119,7 +119,7 @@ while running:
         sound_player.play()
 
     if fall_time > 250 - diff * 15:
-        fall_time = 500 - (score // 100) * (2 * (diff + 1))
+        fall_time = 500 - (score // 100) * (2 * ((diff + 1) * 2))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -132,7 +132,7 @@ while running:
             if event.key == pygame.K_UP and not rotation_pressed and not paused:
                 block.rotate()
                 if not grid.is_valid_position(block):
-                    block.rotate()  # Rotate back if invalid
+                    block.rotate()
                     block.rotate()
                     block.rotate()
                 rotation_pressed = True
@@ -157,6 +157,7 @@ while running:
         screen.blit(game_over_text, text_rect)
         screen.blit(score_text, score_rect)
         screen.blit(instruction_text, instruction_rect)
+        
         pygame.display.flip()
         continue
 
@@ -167,15 +168,15 @@ while running:
         if block.can_move(0, 1, grid_width, grid_height, grid.grid):
             block.move(0, 1, grid_width, grid_height)
         else:
-            if block.grid_y < 1:  # If the block is above the grid, game over
+            if block.grid_y < 1:
                 game_over = True
             else:
                 grid.add_block_to_grid(block)
                 score += grid.clear_lines() * 100
-                block = Block(random.choice(list(Block.SHAPES.keys())), 3, 0, block_size)
+                block = Block(random.choice(list(Block.SHAPES.keys())), 4, 0, block_size)
         last_fall_time = current_time
 
-    if not game_over:  # Prevent movement if the game is over
+    if not game_over:
         keys = pygame.key.get_pressed()
 
         if not paused:

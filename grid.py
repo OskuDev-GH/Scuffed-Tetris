@@ -6,16 +6,16 @@ class Grid:
         self.height = height
         self.block_size = block_size
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.height)]
-        self.color_grid = [[(0, 0, 0) for _ in range(self.width)] for _ in range(self.height)]  # New color grid
+        self.color_grid = [[(0, 0, 0) for _ in range(self.width)] for _ in range(self.height)]
 
     def draw(self, surface):
         for y, row in enumerate(self.grid):
             for x, cell in enumerate(row):
                 if cell == 1:
-                    block_color = self.get_block_color(x, y)  # Get the block color
+                    block_color = self.get_block_color(x, y)
                     pygame.draw.rect(
                         surface,
-                        block_color,  # Use the stored color
+                        block_color,
                         pygame.Rect(x * self.block_size, y * self.block_size, self.block_size, self.block_size)
                     )
                 else:
@@ -34,10 +34,10 @@ class Grid:
                     grid_y = block.grid_y + y
                     if 0 <= grid_x < self.width and 0 <= grid_y < self.height:
                         self.grid[grid_y][grid_x] = 1
-                        self.color_grid[grid_y][grid_x] = block.color  # Store the color of the locked block
+                        self.color_grid[grid_y][grid_x] = block.color
 
     def get_block_color(self, x, y):
-        return self.color_grid[y][x]  # Return the color at the given position
+        return self.color_grid[y][x]
 
     def clear_lines(self):
         lines_cleared = 0

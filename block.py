@@ -27,10 +27,10 @@ class Block(pygame.sprite.Sprite):
         self.shape_type = shape_type
         self.shape = self.SHAPES[shape_type]
         self.size = size
-        self.color = self.COLORS[shape_type]  # Set the color based on shape type
+        self.color = self.COLORS[shape_type]
         self.grid_x = x
         self.grid_y = y
-        self.locked = False  # Default state
+        self.locked = False
 
     def rotate(self):
         self.shape = [list(row) for row in zip(*self.shape[::-1])]
@@ -41,7 +41,7 @@ class Block(pygame.sprite.Sprite):
                 if cell == 1:
                     pygame.draw.rect(
                         surface,
-                        self.color,  # Use the defined color
+                        self.color,
                         pygame.Rect(
                             (self.grid_x + x) * self.size + offset_x,
                             (self.grid_y + y) * self.size + offset_y,
@@ -53,20 +53,18 @@ class Block(pygame.sprite.Sprite):
         for y, row in enumerate(self.shape):
             for x, cell in enumerate(row):
                 if cell == 1:
-                    # Draw filled block
                     pygame.draw.rect(
                         surface,
-                        self.color,  # Use the defined color
+                        self.color,
                         pygame.Rect(
                             (self.grid_x + x) * self.size + offset_x,
                             (self.grid_y + y) * self.size + offset_y,
                             self.size, self.size
                         )
                     )
-                    # Draw outline
                     pygame.draw.rect(
                         surface,
-                        (0, 0, 0),  # Black outline color
+                        (0, 0, 0),
                         pygame.Rect(
                             (self.grid_x + x) * self.size + offset_x,
                             (self.grid_y + y) * self.size + offset_y,
