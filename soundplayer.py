@@ -5,6 +5,7 @@ class SoundPlayer:
         pygame.mixer.init()
         self.sound_file = sound_file
         self.sound = pygame.mixer.Sound(self.sound_file)
+        print(sound_file + " loaded!")
         self.channel = None
 
     def play(self):
